@@ -282,9 +282,36 @@
         <small id="modalTotal" style="color:var(--accent);font-weight:700"></small>
         <div>
           <div id="wallet_container"></div>
-          <a id="mpagoButton" href="https://link.mercadopago.com.ar/rossettideportivo91" target="_blank" rel="noopener noreferrer">
+          <a id="mpagoButton" href="#" onclick="abrirMP(); return false;">
   <button class="btn-buy">Pagar ahora</button>
 </a>
+
+<script>
+function abrirMP(){
+    const base = "https://link.mercadopago.com.ar/rossettideportivo91";
+
+    const detalles = `Compra: ${productData.name} - Color: ${state.color} - Talle: ${state.size}`;
+    const redirect = location.origin + location.pathname + "?pagook=1";
+
+    const linkWeb = 
+        base + 
+        "?details=" + encodeURIComponent(detalles) + 
+        "&redirect_uri=" + encodeURIComponent(redirect);
+
+    // URL que fuerza abrir la APP
+    const linkApp = "mercadopago://pay?url=" + encodeURIComponent(linkWeb);
+
+    // Primero intentamos abrir la app
+    window.location.href = linkApp;
+
+    // Si la app NO abre, después de 1 segundo abrimos el navegador web normal
+    setTimeout(() => {
+        window.location.href = linkWeb;
+    }, 900);
+}
+</script>
+
+
 
         </div>
       </div>
@@ -971,6 +998,31 @@ function showSuccessAndSendReceipt(){
 })();
 
 </script>
+
+<script>
+  // Detectar si Mercado Pago regresó a la página
+  const params = new URLSearchParams(location.search);
+
+  if(params.get("pagook") === "1"){
+    setTimeout(() => {
+      alert("Pago realizado con éxito.\nEnviá el comprobante por WhatsApp.");
+
+      // Abrir WhatsApp con mensaje prearmado
+      const mensaje = 
+        `Hola! Ya realicé mi pago.\n` +
+        `Producto: ${productData.name}\n` +
+        `Color: ${state.color}\n` +
+        `Talle: ${state.size}\n` +
+        `Adjunto mi comprobante.`;
+
+      window.open(
+        `https://wa.me/${productData.phoneWhats}?text=` + encodeURIComponent(mensaje),
+        "_blank"
+      );
+    }, 500);
+  }
+</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
