@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Detalle de Zapatilla</title>
+<style>
+  :root{
+    --bg:#0b0b0d; --card:#0f0f11; --accent:#f7b500; --muted:#bdbdbd;
+    --glass: rgba(255,255,255,0.04);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background:linear-gradient(180deg,#060607,#0b0b0d);
+    color:#fff;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  .container{max-width:1200px;margin:20px auto;padding:16px}
+  .back{color:var(--accent);text-decoration:none;margin-bottom:12px;display:inline-block}
+  .layout{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+
+  /* GALLERY */
+  .gallery{flex:1 1 510px;min-width:280px;background:var(--card);border-radius:12px;padding:12px;overflow:hidden}
+  .carousel-viewport{width:100%;overflow:hidden;border-radius:10px;position:relative}
+  .carousel-track{display:flex;transition:transform .35s ease;will-change:transform}
+  .carousel-slide{width:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0}
+  .carousel-slide img{
+  width:100%;
+  height:420px;
+  max-height:65vh;
+  object-fit:contain;   /* Mostramos la imagen completa sin recortar */
+  background-color:#111; /* relleno elegante y neutro */
+  border-radius:10px;
+  user-select:none;
+  cursor:zoom-in;
+  pointer-events:auto;
+}
+
+  .carousel-controls{display:flex;justify-content:center;align-items:center;margin-top:9px}
+  .dots{display:flex;gap:8px;justify-content:center;margin-top:10px}
+  .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer}
+  .dot.active{background:var(--accent)}
+
+  /* DETAILS */
+  .details{width:360px;flex:0 0 360px;min-width:260px}
+  .card{background:var(--card);padding:16px;border-radius:12px}
+  h1{font-size:20px;margin:0 0 8px}
+  .price-row{display:flex;align-items:center;gap:8px}
+  .price{font-size:22px;color:var(--accent);font-weight:700}
+  .oldprice{font-size:14px;text-decoration:line-through;color:var(--muted)}
+  .discount-badge{background:rgba(247,181,0,0.12);color:var(--accent);padding:4px 8px;border-radius:8px;font-weight:700;margin-left:6px;font-size:13px}
+  .sizes,.colors{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .size-btn,.color-btn{border:0;padding:8px 10px;border-radius:8px;background:transparent;color:#fff;cursor:pointer;border:1px solid rgba(255,255,255,0.06)}
+  .size-btn.active,.color-btn.active{outline:2px solid var(--accent)}
+  .color-swatch{width:28px;height:28px;border-radius:6px;display:inline-block;vertical-align:middle}
+  .buy-row{display:flex;gap:10px;margin-top:14px;align-items:center}
+  .btn-buy{background:var(--accent);border:0;padding:12px 16px;border-radius:10px;color:#000;font-weight:700;cursor:pointer}
+  .btn-video{background:transparent;border:1px solid var(--accent);padding:10px 12px;border-radius:10px;color:var(--accent);cursor:pointer}
+  .note{font-size:13px;color:var(--muted);margin-top:8px}
+  .stock-msg{font-size:13px;color:#ffdede;margin-top:8px}
+
+  /* INFO */
+  .info{margin-top:18px;background:var(--card);padding:16px;border-radius:12px}
+  .socials{display:flex;gap:12px;margin-top:10px}
+  .socials a{display:inline-flex;align-items:center;gap:8px;background:var(--glass);padding:8px;border-radius:8px;color:#fff;text-decoration:none}
+  .socials svg{width:18px;height:18px;vertical-align:middle}
+
+  /* MODALS */
+  .overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1200}
+  .overlay.active{display:flex}
+  .overlay.blur{backdrop-filter:blur(6px);background:rgba(0,0,0,0.45)}
+  .modal{background:#121212;padding:22px;border-radius:14px;width:92%;max-width:480px;position:relative;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+  .modal .close{position:absolute;right:10px;top:8px;background:transparent;border:0;color:#fff;font-size:20px;cursor:pointer}
+
+  /* VIDEO MODAL */
+  .video-modal .modal{max-width:1100px;padding:10px}
+  .video-container{position:relative;padding-top:56.25%;background:#000;border-radius:8px;overflow:hidden}
+  .video-container video{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
+
+  /* PAYMENT STYLES */
+  .pay-summary{display:flex;align-items:center;gap:12px;padding:10px;background:#1d1d1d;border-radius:10px;margin-bottom:16px}
+  .pay-summary img{width:60px;height:60px;border-radius:8px;object-fit:cover}
+  .method-option{display:flex;align-items:center;gap:10px;padding:10px;background:#1a1a1a;border-radius:8px;margin-bottom:8px;cursor:pointer}
+  .method-option:hover{background:#222}
+  .prod-price{color:var(--accent);font-weight:700}
+  .subtitle{font-size:13px;opacity:.7}
+  .card-details{margin-top:14px;display:flex;flex-direction:column}
+  .pay-footer{margin-top:20px;display:flex;justify-content:space-between;align-items:center}
+  #modalTotal{font-size:18px;color:var(--accent);font-weight:700}
+
+  /* responsive */
+  @media (max-width:800px){
+    .layout{flex-direction:column}
+    .details{width:100%}
+    .carousel-slide img{height:44vh}
+  }
+
+  /* Imagen del carrusel clickeable */
+.carousel-slide img{
+  cursor: zoom-in;
+  pointer-events: auto; /* permite clic */
+}
+
+/* Modal de imagen fullscreen */
+#imageOverlay .modal{
+  background: rgba(0,0,0,0.9);
+  box-shadow:none;
+}
+
+#imageOverlay img{
+  max-width:100%;
+  max-height:95vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;    /* imagen completa sin deformar */
+  background:#000;       /* fondo negro elegante */
+  margin:auto;
+  display:block;
+  user-select:none;
+}
+
+
+#fullImageView{
+  transition: transform .25s ease;
+  touch-action: none; /* evita conflictos con scroll */
+}
+
+
+
+</style>
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="#" onclick="history.back();return false">← Volver</a>
+
+    <div class="layout">
+      <!-- GALLERY -->
+      <div class="gallery" aria-label="Galería de producto">
+        <div class="carousel-viewport" id="viewport">
+          <div class="carousel-track" id="track" aria-live="polite"></div>
+        </div>
+
+        <div class="dots" id="dots" aria-hidden="false"></div>
+
+        <div style="margin-top:22px;display:flex;gap:8px;align-items:center;justify-content:flex-start">
+          <strong style="margin-right:8px">Video de muestra</strong>
+          <button class="btn-video" id="openVideoBtn" aria-haspopup="dialog">Ver video</button>
+        </div>
+      </div>
+
+      <!-- DETAILS -->
+      <aside class="details">
+        <div class="card">
+          <h1 id="productName">Zapatilla Demo</h1>
+          <div class="price-row">
+            <span class="price" id="price">$0</span>
+            <span class="oldprice" id="oldPrice" style="display:none"></span>
+            <span class="discount-badge" id="discountBadge" style="display:none"></span>
+          </div>
+
+          <div style="margin-top:8px">
+            <strong>Zapatillas disponibles</strong><br>
+            <small id="stockCount">0</small>
+          </div>
+
+          <div class="sizes" aria-label="Talles">
+            <label style="width:100%"><strong>Talles:</strong></label>
+            <!-- talles renderizados por JS -->
+            <div id="sizesList" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+          </div>
+
+          <div class="colors" aria-label="Colores" style="margin-top:10px">
+            <label style="width:100%"><strong>Colores:</strong></label>
+            <div id="colorsList" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+          </div>
+
+          <div class="note" id="stockNote">En stock</div>
+
+          <div class="buy-row">
+            <button class="btn-buy" id="buyBtn">Comprar</button>
+          </div>
+
+        </div>
+
+        <div class="info" style="margin-top:12px">
+          <h3>Información</h3>
+          <p id="description">Descripción breve de la zapatilla.</p>
+          <p><strong>Ubicación del local:</strong> <span id="location">Av. Principal 123, Ciudad</span></p>
+          <div class="socials">
+            <a id="whatsapp" href="#" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+              <!-- WhatsApp SVG -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#25D366" d="M12 2C6.477 2 2 6.477 2 12c0 1.978.528 3.827 1.442 5.435L2 22l4.746-1.391A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#fff" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.671.15-.198.297-.767.967-.94 1.165-.173.198-.347.223-.644.075-.297-.148-1.255-.462-2.39-1.475-.885-.788-1.482-1.761-1.657-2.058-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.173.198-.297.297-.495.099-.198.05-.372-.025-.52-.075-.148-.671-1.612-.92-2.21-.242-.579-.487-.5-.671-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.148.198 2.095 3.2 5.076 4.487 0 0 .072.03.165.03.099 0 .372 0 .57-.075.198-.074 1.758-.639 2.005-1.259.248-.62.248-1.152.173-1.259-.074-.107-.272-.173-.57-.322z"/></svg>
+              WhatsApp
+            </a>
+            <a id="instagram" href="#" target="_blank" rel="noopener noreferrer" title="Instagram">
+              <!-- Instagram SVG -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#feda75"/><stop offset="0.5" stop-color="#fa7e1e"/><stop offset="1" stop-color="#d62976"/></linearGradient><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z" fill="url(#g)"/><path d="M12 7.2a4.8 4.8 0 100 9.6 4.8 4.8 0 000-9.6z" fill="#fff"/><circle cx="17.7" cy="6.3" r="1.2" fill="#fff"/></svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+
+        <!-- MODAL IMAGEN COMPLETA -->
+<div class="overlay blur" id="imageOverlay" aria-hidden="true" role="dialog" aria-label="Imagen ampliada">
+  <div class="modal full-image-modal" style="max-width:95%;max-height:95%;padding:0;position:relative;">
+    <button class="close" id="closeImageModal" 
+      style="position:absolute;top:10px;right:10px;z-index:10;background:rgba(0,0,0,0.6);border-radius:50%;padding:6px 10px;">
+      ✖
+    </button>
+    <div class="image-full-container" style="position:relative;overflow:hidden;">
+      <img id="fullImageView" src="" alt="Vista completa" 
+        style="width:100%;max-height:90vh;object-fit:contain;display:block;">
+    </div>
+  </div>
+</div>
+
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- MODAL VIDEO -->
+  <div class="overlay blur" id="videoOverlay" aria-hidden="true" role="dialog" aria-label="Video de producto">
+    <div class="modal video-modal" role="document">
+      <button class="close" id="closeVideo" aria-label="Cerrar video">✖</button>
+      <div class="video-container" id="videoContainer">
+        <video id="colorVideo" controls playsinline preload="metadata" controlsList="nodownload">
+          <source id="videoSource" src="" type="video/mp4">
+          Tu navegador no soporta video.
+        </video>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:10px">
+        <button class="btn-video" id="closeVideo2">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PAGO -->
+  <div class="overlay blur" id="payOverlay" aria-hidden="true" role="dialog" aria-label="Métodos de pago">
+    <div class="modal pay-modal" role="document" style="max-width:480px">
+      <button class="close" id="closePay">✖</button>
+      <h3>Métodos de pago</h3>
+      <p class="subtitle">Elegí cómo querés pagar</p>
+
+      <div class="pay-summary">
+        <img id="selectedThumb" src="" alt="Producto">
+        <div>
+          <p id="payProductName"></p>
+          <p class="prod-variant">Color: <span id="payColor"></span> | Talle: <span id="paySize"></span></p>
+        </div>
+        <span class="prod-price" id="payPrice"></span>
+      </div>
+
+      <div class="pay-methods">
+        <label class="method-option"><input type="radio" name="paymethod" value="card" checked> Tarjeta (Débito/Crédito)</label>
+        <label class="method-option"><input type="radio" name="paymethod" value="mercadopago"> Mercado Pago</label>
+        <label class="method-option"><input type="radio" name="paymethod" value="cash"> Pago en local (Efectivo)</label>
+      </div>
+
+      <div id="cardDetails" class="card-details">
+        <label for="cardType">Tipo de tarjeta:</label>
+        <select id="cardType">
+          <option value="debit">Débito</option>
+          <option value="visa">Visa</option>
+          <option value="master">Mastercard</option>
+          <option value="amex">Amex</option>
+        </select>
+
+        <div style="margin-top:8px">
+          <label for="installments">Cuotas disponibles:</label>
+          <select id="installments"></select>
+        </div>
+      </div>
+
+      <div class="pay-footer">
+        <small id="modalTotal" style="color:var(--accent);font-weight:700"></small>
+        <div>
+          <div id="wallet_container"></div>
+          <a id="mpagoButton" href="https://link.mercadopago.com.ar/rossettideportivo91" target="_blank" rel="noopener noreferrer">
+  <button class="btn-buy">Pagar ahora</button>
+</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL IMAGEN COMPLETA -->
+<div class="overlay blur" id="imageOverlay" aria-hidden="true" role="dialog" aria-label="Imagen ampliada">
+  <div class="modal full-image-modal" style="max-width:95%;max-height:95%;padding:0;position:relative;">
+    <button class="close" id="closeImageModal" 
+      style="position:absolute;top:10px;right:10px;z-index:10;background:rgba(0,0,0,0.6);border-radius:50%;padding:6px 10px;">
+      ✖
+    </button>
+    <div class="image-full-container" style="position:relative;overflow:hidden;">
+      <img id="fullImageView" src="" alt="Vista completa" 
+        style="width:100%;max-height:90vh;object-fit:contain;display:block;">
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function updateMercadoPagoLink() {
+    const mpagoBase = "https://link.mercadopago.com.ar/rossettideportivo91"; // tu link real
+    const customText = `Compra: ${productData.name} - Color: ${state.color} - Talle: ${state.size}`;
+    document.getElementById('mpagoButton').href = mpagoBase + "?details=" + encodeURIComponent(customText);
+}
+
+// Ejecutar cuando cambia el talle o color
+colorBtns.forEach(btn => btn.addEventListener('click', updateMercadoPagoLink));
+sizeButtons.forEach(btn => btn.addEventListener('click', updateMercadoPagoLink));
+updateMercadoPagoLink(); // inicial
+
+</script>
+
+<script>
+  // Inicializar Mercado Pago (reemplaza con tu PUBLIC_KEY real)
+const mp = new MercadoPago("TEST-7926b58f-a497-4f35-8d6f-15c88d098ae7", {
+  locale: "es-AR"
+});
+
+confirmPay.addEventListener('click', async () => {
+  confirmPay.disabled = true;
+  confirmPay.textContent = "Procesando...";
+
+  // Si el usuario eligió Mercado Pago, generamos el pago real
+  const method = document.querySelector('input[name="paymethod"]:checked').value;
+
+  if(method === "mercadopago"){
+    // ⚠ Necesitas tener un backend real para que funcione
+    try {
+      const response = await fetch("http://localhost:3000/create_preference", {  // tu servidor
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: productData.name,
+          quantity: 1,
+          unit_price: productData.basePrice,
+        }),
+      });
+
+      const data = await response.json();
+      if(data.id){
+        // Crea Wallet Brick
+        mp.bricks().create("wallet", "wallet_container", {
+          initialization: { preferenceId: data.id }
+        });
+      }
+    } catch (e) {
+      alert("⚠ Error generando el pago. Necesitas servidor backend real.");
+    }
+  }
+
+  // Simulación de pago con tarjeta o efectivo (local)
+  setTimeout(()=>{
+    confirmPay.disabled = false;
+    confirmPay.textContent = 'Pagar ahora';
+    payOverlay.classList.remove('active');
+    showSuccessAndSendReceipt();
+  }, 1500);
+});
+
+
+// ==========================
+// FUNCIÓN CORRECTA
+// ==========================
+function showSuccessAndSendReceipt(){
+  // Disminuye stock local
+  const currentStock = getStockFor(state.color, state.size);
+  if(currentStock > 0){
+    productData.stockByColorSize[state.color][state.size] = currentStock - 1;
+  }
+  updateStockAndAvailability();
+
+  // Datos de compra
+  const purchase = {
+    product: productData.name,
+    color: state.color,
+    size: state.size,
+    price: productData.basePrice,
+    date: new Date().toLocaleString('es-AR'),
+    whatsapp: productData.phoneWhats
+  };
+
+  // Guardar venta en localStorage
+  const sales = JSON.parse(localStorage.getItem('sales') || '[]');
+  sales.push(purchase);
+  localStorage.setItem('sales', JSON.stringify(sales));
+
+  // Generar PDF con jsPDF
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  
+  doc.setFontSize(18);
+  doc.text("Comprobante de Compra", 20, 20);
+  doc.setFontSize(12);
+  doc.text(`Producto: ${purchase.product}`, 20, 40);
+  doc.text(`Color: ${purchase.color}`, 20, 50);
+  doc.text(`Talle: ${purchase.size}`, 20, 60);
+  doc.text(`Precio: $${purchase.price.toLocaleString('es-AR')}`, 20, 70);
+  doc.text(`Fecha: ${purchase.date}`, 20, 80);
+
+  // Descargar PDF
+  doc.save(`Comprobante-${purchase.product}.pdf`);
+
+  // Enviar por WhatsApp
+  const waText =
+    `Hola! Te envío mi comprobante de compra:\n\n` +
+    `🛒 *${purchase.product}*\n` +
+    `🎨 Color: ${purchase.color}\n` +
+    `📏 Talle: ${purchase.size}\n` +
+    `💵 Precio: $${purchase.price.toLocaleString('es-AR')}\n` +
+    `📅 Fecha: ${purchase.date}\n\n` +
+    `Adjunté PDF del comprobante.`;
+
+  window.open(`https://wa.me/${purchase.whatsapp}?text=${encodeURIComponent(waText)}`, '_blank');
+
+  alert("Pago simulado exitoso. Comprobante generado y enviado por WhatsApp.");
+}
+
+
+</script>
+
+  <script>
+    // ======= MODAL IMAGEN FULLSCREEN =======
+(function(){
+  const imageOverlay = document.getElementById('imageOverlay');
+  const fullImageView = document.getElementById('fullImageView');
+  const closeImageModal = document.getElementById('closeImageModal');
+
+  // Abrir al hacer clic en imagen del carrusel
+  track.addEventListener('click', (e)=>{
+    const img = e.target.closest('img');
+    if(!img) return;
+    const imgs = productData.images[state.color] || [];
+    let idx = imgs.findIndex(s => s === img.src);
+    if(idx === -1) idx = state.index || 0;
+    state.index = idx;
+    fullImageView.src = imgs[state.index];
+    imageOverlay.classList.add('active');
+    imageOverlay.setAttribute('aria-hidden','false');
+  });
+
+  // Cerrar modal
+  closeImageModal.addEventListener('click', closeImageView);
+  imageOverlay.addEventListener('click', (e)=>{ 
+    if(e.target === imageOverlay) closeImageView(); 
+  });
+  function closeImageView(){
+    imageOverlay.classList.remove('active');
+    imageOverlay.setAttribute('aria-hidden','true');
+  }
+
+  // Swipe dentro del modal
+  // ======= SWIPE FULLSCREEN IMAGES (TOUCH + MOUSE) =======
+let startX = 0, isDragging = false, movedX = 0;
+
+fullImageView.addEventListener('touchstart', handleStart, { passive: true });
+fullImageView.addEventListener('touchmove', handleMove, { passive: false });
+fullImageView.addEventListener('touchend', handleEnd);
+
+fullImageView.addEventListener('mousedown', handleStart);
+fullImageView.addEventListener('mousemove', handleMove);
+fullImageView.addEventListener('mouseup', handleEnd);
+
+function handleStart(e){
+  isDragging = true;
+  startX = e.touches ? e.touches[0].clientX : e.clientX;
+}
+
+function handleMove(e){
+  if(!isDragging) return;
+  movedX = (e.touches ? e.touches[0].clientX : e.clientX) - startX;
+  
+  // mover la imagen visualmente mientras se arrastra
+  fullImageView.style.transform = `translateX(${movedX}px)`;
+  fullImageView.style.transition = 'none';
+
+  if(e.cancelable) e.preventDefault(); // permite movimiento suave sin scroll
+}
+
+function handleEnd(){
+  if(!isDragging) return;
+  isDragging = false;
+
+  fullImageView.style.transition = 'transform .25s ease';
+
+  const imgs = productData.images[state.color] || [];
+
+  if(movedX < -80){
+    // siguiente imagen
+    state.index = (state.index + 1) % imgs.length;
+  } else if(movedX > 80){
+    // imagen anterior
+    state.index = (state.index - 1 + imgs.length) % imgs.length;
+  }
+
+  fullImageView.src = imgs[state.index];
+  fullImageView.style.transform = 'translateX(0)';
+  movedX = 0;
+}
+
+  
+  fullImageView.addEventListener('touchstart', startSwipe, {passive:true});
+  fullImageView.addEventListener('touchmove', moveSwipe, {passive:false});
+  fullImageView.addEventListener('touchend', endSwipe);
+  fullImageView.addEventListener('mousedown', startSwipe);
+  fullImageView.addEventListener('mousemove', moveSwipe);
+  fullImageView.addEventListener('mouseup', endSwipe);
+})();
+
+  </script>
+<script>
+/* ===========================
+   Datos del producto (completo)
+   - images por color
+   - videos por color
+   - stock por color+x talle
+   ============================ */
+const productData = {
+  sku: 'demo-sku',
+  name: 'Zapatilla Demo',
+  basePrice: 130000,
+  oldPrice: 160000, // si hay descuento dejar > basePrice, si no poner null o eliminar
+  description: 'Zapatilla de ejemplo con diseño cómodo y suela reforzada. Material sintético premium y forro transpirable.',
+  storeEmail: 'local@tienda.com',
+  phoneWhats: '5491123456789',
+  location: 'Av. Principal 123, Ciudad',
+  socialUrls: {
+    instagram: 'https://instagram.com/tu_local',
+    whatsappPrefix: 'https://wa.me/' // + phone
+  },
+  images: {
+    black: [
+      'https://ferreira.vtexassets.com/arquivos/ids/371191-800-auto?v=637465353296400000&width=800&height=auto&aspect=true',
+      'https://production.cdn.vaypol.com/variants/3lev9wl7yr58n3s6i1ny9l16wwe3/e82c8d6171dd25bb538f2e7263b5bc7dfc6a79352d85923074be76df53fbc6f4',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDPoWD2iPBOXVNVuGEiFIt-FoqCyseNV4kBWr6FWUKusYtIAdfqgrYRcwPNzqebJRkiaE&usqp=CAU'
+    ],
+    white: [
+      'https://via.placeholder.com/1200x800/f8f8f8/222222?text=BLANCO+1',
+      'https://via.placeholder.com/1200x800/ffffff/222222?text=BLANCO+2'
+    ],
+    red: [
+      'https://via.placeholder.com/1200x800/c62828/ffffff?text=ROJO+1',
+      'https://via.placeholder.com/1200x800/b71c1c/ffffff?text=ROJO+2'
+    ]
+  },
+  videos: {
+    black: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+    white: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+    red: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
+  },
+  // Stock por color y talle (ejemplo)
+  stockByColorSize: {
+    black: { '37': 2, '38': 7, '39': 3, '40': 1, '41': 0 },
+    white: { '37': 5, '38': 5, '39': 2, '40': 2, '41': 1 },
+    red:   { '37': 0, '38': 1, '39': 0, '40': 1, '41': 0 }
+  }
+};
+
+/* ===========================
+   Estado y elementos
+   ============================ */
+let state = { color: 'black', size: '40', index: 0 };
+
+const track = document.getElementById('track');
+const dots = document.getElementById('dots');
+const openVideoBtn = document.getElementById('openVideoBtn');
+const videoOverlay = document.getElementById('videoOverlay');
+const colorVideo = document.getElementById('colorVideo');
+const videoSource = document.getElementById('videoSource');
+
+const productNameEl = document.getElementById('productName');
+const priceEl = document.getElementById('price');
+const oldPriceEl = document.getElementById('oldPrice');
+const discountBadge = document.getElementById('discountBadge');
+const descEl = document.getElementById('description');
+const locationEl = document.getElementById('location');
+const stockCountEl = document.getElementById('stockCount');
+const stockNoteEl = document.getElementById('stockNote');
+
+const sizesList = document.getElementById('sizesList');
+const colorsList = document.getElementById('colorsList');
+
+/* ===========================
+   Inicializar UI con datos
+   ============================ */
+productNameEl.textContent = productData.name;
+descEl.textContent = productData.description;
+locationEl.textContent = productData.location;
+priceEl.textContent = '$' + productData.basePrice.toLocaleString('es-AR');
+
+if (productData.oldPrice && productData.oldPrice > productData.basePrice) {
+  oldPriceEl.style.display = 'inline';
+  oldPriceEl.textContent = '$' + productData.oldPrice.toLocaleString('es-AR');
+  const discountPercent = Math.round( ( (productData.oldPrice - productData.basePrice) / productData.oldPrice ) * 100 );
+  discountBadge.style.display = 'inline-block';
+  discountBadge.textContent = `-${discountPercent}%`;
+} else {
+  oldPriceEl.style.display = 'none';
+  discountBadge.style.display = 'none';
+}
+
+/* Render talles automáticamente según stockByColorSize keys (tomamos los talles más comunes) */
+const sampleColor = Object.keys(productData.stockByColorSize)[0];
+const talles = Object.keys(productData.stockByColorSize[sampleColor] || {'37':0,'38':0,'39':0,'40':0,'41':0});
+talles.forEach(t=>{
+  const b = document.createElement('button');
+  b.className = 'size-btn';
+  b.dataset.size = t;
+  b.textContent = t;
+  b.addEventListener('click', ()=> {
+    document.querySelectorAll('.size-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    state.size = t;
+    updateStockAndAvailability();
+  });
+  sizesList.appendChild(b);
+});
+/* default size active if exists */
+const defaultSizeBtn = sizesList.querySelector('.size-btn[data-size="'+state.size+'"]');
+if(defaultSizeBtn) defaultSizeBtn.classList.add('active');
+
+/* Render colores */
+Object.keys(productData.images).forEach(c=>{
+  const btn = document.createElement('button');
+  btn.className = 'color-btn';
+  btn.dataset.color = c;
+  btn.title = c;
+  const sw = document.createElement('span');
+  sw.className = 'color-swatch';
+  // set swatch color simple heuristic
+  if (c === 'white') sw.style.background = '#fff', sw.style.border = '1px solid #ccc';
+  else if (c === 'black') sw.style.background = '#111';
+  else sw.style.background = c;
+  btn.appendChild(sw);
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.color-btn').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    state.color = c;
+    state.index = 0;
+    buildCarousel(state.color);
+    updateStockAndAvailability();
+    setVideoSourceForColor(state.color);
+  });
+  colorsList.appendChild(btn);
+});
+/* default color active */
+const defaultColorBtn = colorsList.querySelector('.color-btn[data-color="'+state.color+'"]');
+if(defaultColorBtn) defaultColorBtn.classList.add('active');
+
+/* ===========================
+   Carousel build + controls
+   ============================ */
+function buildCarousel(color){
+  track.innerHTML = '';
+  dots.innerHTML = '';
+  const imgs = productData.images[color] || [];
+  imgs.forEach((src,i)=>{
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide';
+    slide.innerHTML = `<img src="${src}" alt="${productData.name} - ${color} - ${i+1}">`;
+    track.appendChild(slide);
+
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i===0? ' active' : '');
+    dot.dataset.index = i;
+    dot.addEventListener('click', ()=>goTo(i));
+    dots.appendChild(dot);
+  });
+  state.index = Math.min(state.index, Math.max(0, imgs.length-1));
+  updateCarousel();
+}
+function updateCarousel(){
+  track.style.transform = `translateX(-${state.index * 100}%)`;
+  Array.from(dots.children).forEach((d, idx) => d.classList.toggle('active', idx===state.index));
+}
+function goTo(i){
+  state.index = i;
+  updateCarousel();
+}
+
+/* swipe support (mobile + desktop) */
+(function enableSwipe(){
+  const viewport = document.getElementById('viewport');
+  let startX=0, currentX=0, dragging=false, width=viewport.clientWidth;
+  function unify(e){ return e.changedTouches ? e.changedTouches[0] : e; }
+  viewport.addEventListener('touchstart', start, {passive:true});
+  viewport.addEventListener('mousedown', start);
+  viewport.addEventListener('touchmove', move, {passive:false});
+  viewport.addEventListener('mousemove', move);
+  viewport.addEventListener('touchend', end);
+  viewport.addEventListener('mouseup', end);
+  viewport.addEventListener('mouseleave', end);
+  window.addEventListener('resize', ()=> width = viewport.clientWidth);
+
+  function start(e){ const ev = unify(e); dragging=true; startX = ev.clientX; currentX = startX; track.style.transition = 'none'; }
+  function move(e){ if(!dragging) return; const ev = unify(e); currentX = ev.clientX; const dx = currentX - startX; const percent = dx / width * 100; const base = -state.index * 100; track.style.transform = `translateX(${base + percent}%)`; e.preventDefault && e.preventDefault(); }
+  function end(e){ if(!dragging) return; dragging=false; track.style.transition = ''; const dx = currentX - startX; const threshold = Math.max(20, width * 0.12); if(dx > threshold){ state.index = Math.max(0, state.index - 1); } else if(dx < -threshold){ state.index = Math.min((track.children.length || 1) - 1, state.index + 1); } updateCarousel(); }
+})();
+
+/* build initial carousel */
+buildCarousel(state.color);
+setVideoSourceForColor(state.color);
+
+/* ===========================
+   Stock y disponibilidad (por color + talle)
+   ============================ */
+function getStockFor(color, size){
+  const byColor = productData.stockByColorSize[color] || {};
+  return Number(byColor[size] || 0);
+}
+function updateStockAndAvailability(){
+  const stock = getStockFor(state.color, state.size);
+  stockCountEl.textContent = stock;
+  if(stock > 0){
+    stockNoteEl.textContent = 'En stock';
+    stockNoteEl.style.color = '#9ff59a';
+    document.getElementById('buyBtn').disabled = false;
+    document.getElementById('buyBtn').style.opacity = '1';
+  } else {
+    stockNoteEl.textContent = 'Sin stock para ese color/talle';
+    stockNoteEl.style.color = '#ff9a9a';
+    document.getElementById('buyBtn').disabled = true;
+    document.getElementById('buyBtn').style.opacity = '0.6';
+  }
+}
+/* init stock */
+updateStockAndAvailability();
+
+/* ===========================
+   Video modal logic
+   ============================ */
+function setVideoSourceForColor(color){
+  const url = productData.videos[color] || '';
+  videoSource.src = url;
+  colorVideo.load();
+}
+openVideoBtn.addEventListener('click', ()=>{
+  setVideoSourceForColor(state.color);
+  videoOverlay.classList.add('active');
+  videoOverlay.setAttribute('aria-hidden','false');
+  colorVideo.play().catch(()=>{/* autoplay may fail; user can press play */});
+});
+document.getElementById('closeVideo').addEventListener('click', closeVideoModal);
+document.getElementById('closeVideo2').addEventListener('click', closeVideoModal);
+videoOverlay.addEventListener('click', (e)=>{ if(e.target === videoOverlay) closeVideoModal(); });
+function closeVideoModal(){
+  videoOverlay.classList.remove('active');
+  videoOverlay.setAttribute('aria-hidden','true');
+  colorVideo.pause();
+  colorVideo.currentTime = 0;
+}
+
+/* ===========================
+   Social links (whatsapp & instagram)
+   ============================ */
+document.getElementById('instagram').href = productData.socialUrls.instagram;
+document.getElementById('whatsapp').href = productData.socialUrls.whatsappPrefix + productData.phoneWhats + '?text=' + encodeURIComponent('Hola! Consulta por ' + productData.name + ' - Color: ' + state.color + ' - Talle: ' + state.size);
+
+/* =================================
+   Payment modal & simulated flow
+   ================================= */
+const buyBtn = document.getElementById('buyBtn');
+const payOverlay = document.getElementById('payOverlay');
+const closePay = document.getElementById('closePay');
+const confirmPay = document.getElementById('confirmPay');
+const modalTotal = document.getElementById('modalTotal');
+const cardType = document.getElementById('cardType');
+const installments = document.getElementById('installments');
+
+const selectedThumb = document.getElementById('selectedThumb');
+const payProductName = document.getElementById('payProductName');
+const payColor = document.getElementById('payColor');
+const paySize = document.getElementById('paySize');
+const payPrice = document.getElementById('payPrice');
+
+const cuotasByCard = { debit:[1], visa:[1,3,6,12], master:[1,3,6], amex:[1,3,12] };
+
+function populateInstallments(){
+  const arr = cuotasByCard[cardType.value] || [1];
+  installments.innerHTML = '';
+  arr.forEach(q=>{
+    const opt = document.createElement('option');
+    opt.value = q;
+    const per = Math.round(productData.basePrice / q);
+    opt.text = `${q} x $${per.toLocaleString('es-AR')}`;
+    installments.appendChild(opt);
+  });
+}
+
+buyBtn.addEventListener('click', ()=>{
+  // check stock before opening
+  const stock = getStockFor(state.color, state.size);
+  if(stock <= 0){
+    alert('No hay stock para ese color y talle. Elegí otra combinación.');
+    return;
+  }
+
+  payOverlay.classList.add('active');
+  payOverlay.setAttribute('aria-hidden','false');
+
+  selectedThumb.src = (productData.images[state.color] && productData.images[state.color][0]) || '';
+  payProductName.textContent = productData.name;
+  payColor.textContent = state.color.toUpperCase();
+  paySize.textContent = state.size;
+  // display price with discount if any
+  if(productData.oldPrice && productData.oldPrice > productData.basePrice){
+    payPrice.textContent = '$' + productData.basePrice.toLocaleString('es-AR') + ' ';
+    modalTotal.textContent = 'Total: $' + productData.basePrice.toLocaleString('es-AR');
+  } else {
+    payPrice.textContent = '$' + productData.basePrice.toLocaleString('es-AR');
+    modalTotal.textContent = 'Total: $' + productData.basePrice.toLocaleString('es-AR');
+  }
+  populateInstallments();
+});
+
+/* Mostrar / ocultar card details según método */
+document.querySelectorAll('input[name="paymethod"]').forEach(radio=>{
+  radio.addEventListener('change', ()=>{
+    document.getElementById('cardDetails').style.display = radio.value === 'card' ? 'block' : 'none';
+  });
+});
+cardType.addEventListener('change', populateInstallments);
+
+closePay.addEventListener('click', ()=>{ payOverlay.classList.remove('active'); payOverlay.setAttribute('aria-hidden','true'); });
+
+confirmPay.addEventListener('click', ()=>{
+  confirmPay.disabled = true;
+  confirmPay.textContent = 'Procesando...';
+  setTimeout(()=>{
+    confirmPay.disabled = false;
+    confirmPay.textContent = 'Pagar';
+    payOverlay.classList.remove('active');
+    payOverlay.setAttribute('aria-hidden','true');
+    showSuccessAndSendReceipt();
+  }, 1400);
+});
+
+function showSuccessAndSendReceipt(){
+confirmPay.addEventListener('click', async () => {
+  confirmPay.disabled = true;
+  confirmPay.textContent = "Procesando...";
+
+  // Si el usuario eligió Mercado Pago, generamos el pago real
+  const method = document.querySelector('input[name="paymethod"]:checked').value;
+
+  if(method === "mercadopago"){
+    // ⚠ Necesitas tener un backend real para que funcione
+    try {
+      const response = await fetch("http://localhost:3000/create_preference", {  // tu servidor
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: productData.name,
+          quantity: 1,
+          unit_price: productData.basePrice,
+        }),
+      });
+
+      const data = await response.json();
+      if(data.id){
+        // Crea Wallet Brick
+        mp.bricks().create("wallet", "wallet_container", {
+          initialization: { preferenceId: data.id }
+        });
+      }
+    } catch (e) {
+      alert("⚠ Error generando el pago. Necesitas servidor backend real.");
+    }
+  }
+
+  // Simulación de pago con tarjeta o efectivo (local)
+  setTimeout(()=>{
+    confirmPay.disabled = false;
+    confirmPay.textContent = 'Pagar ahora';
+    payOverlay.classList.remove('active');
+    showSuccessAndSendReceipt();
+  }, 1500);
+});
+
+
+// ==========================
+// FUNCIÓN CORRECTA
+// ==========================
+function showSuccessAndSendReceipt(){
+  // Disminuye stock local
+  const currentStock = getStockFor(state.color, state.size);
+  if(currentStock > 0){
+    productData.stockByColorSize[state.color][state.size] = currentStock - 1;
+  }
+  updateStockAndAvailability();
+
+  // Datos de compra
+  const purchase = {
+    product: productData.name,
+    color: state.color,
+    size: state.size,
+    price: productData.basePrice,
+    date: new Date().toLocaleString('es-AR'),
+    whatsapp: productData.phoneWhats
+  };
+
+  // Guardar venta en localStorage
+  const sales = JSON.parse(localStorage.getItem('sales') || '[]');
+  sales.push(purchase);
+  localStorage.setItem('sales', JSON.stringify(sales));
+
+  // Generar PDF con jsPDF
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  
+  doc.setFontSize(18);
+  doc.text("Comprobante de Compra", 20, 20);
+  doc.setFontSize(12);
+  doc.text(`Producto: ${purchase.product}`, 20, 40);
+  doc.text(`Color: ${purchase.color}`, 20, 50);
+  doc.text(`Talle: ${purchase.size}`, 20, 60);
+  doc.text(`Precio: $${purchase.price.toLocaleString('es-AR')}`, 20, 70);
+  doc.text(`Fecha: ${purchase.date}`, 20, 80);
+
+  // Descargar PDF
+  doc.save(`Comprobante-${purchase.product}.pdf`);
+
+  // Enviar por WhatsApp
+  const waText =
+    `Hola! Te envío mi comprobante de compra:\n\n` +
+    `🛒 *${purchase.product}*\n` +
+    `🎨 Color: ${purchase.color}\n` +
+    `📏 Talle: ${purchase.size}\n` +
+    `💵 Precio: $${purchase.price.toLocaleString('es-AR')}\n` +
+    `📅 Fecha: ${purchase.date}\n\n` +
+    `Adjunté PDF del comprobante.`;
+
+  window.open(`https://wa.me/${purchase.whatsapp}?text=${encodeURIComponent(waText)}`, '_blank');
+
+  alert("Pago simulado exitoso. Comprobante generado y enviado por WhatsApp.");
+}
+
+
+}
+
+/* ===========================
+   Permitir preselección via URL
+   Ej: index.html?color=red&size=39
+   ============================ */
+(function applyQueryParams(){
+  const params = new URLSearchParams(location.search);
+  const color = params.get('color');
+  const size = params.get('size');
+  if(color && productData.images[color]){
+    state.color = color;
+    const btn = colorsList.querySelector('.color-btn[data-color="'+color+'"]');
+    if(btn){ document.querySelectorAll('.color-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+    buildCarousel(color);
+    setVideoSourceForColor(color);
+  }
+  if(size){
+    state.size = size;
+    const sb = sizesList.querySelector('.size-btn[data-size="'+size+'"]');
+    if(sb){ document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active')); sb.classList.add('active'); }
+  }
+  updateStockAndAvailability();
+})();
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>
