@@ -307,6 +307,14 @@
 
 
 <script>
+function generarCodigoPago() {
+  const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numeros = Math.floor(100000 + Math.random() * 900000);
+  const letra = letras[Math.floor(Math.random() * letras.length)];
+  return letra + numeros;
+}
+
+
   function updateMercadoPagoLink() {
     const mpagoBase = "https://link.mercadopago.com.ar/rossettideportivo91"; // tu link real
     const customText = `Compra: ${productData.name} - Color: ${state.color} - Talle: ${state.size}`;
@@ -412,13 +420,14 @@ function showSuccessAndSendReceipt(){
 
   // Enviar por WhatsApp
   const waText =
-    `Hola! Te envío mi comprobante de compra:\n\n` +
-    `🛒 *${purchase.product}*\n` +
-    `🎨 Color: ${purchase.color}\n` +
-    `📏 Talle: ${purchase.size}\n` +
-    `💵 Precio: $${purchase.price.toLocaleString('es-AR')}\n` +
-    `📅 Fecha: ${purchase.date}\n\n` +
-    `Adjunté PDF del comprobante.`;
+  `Hola! Te envío mi comprobante de compra.\n\n` +
+  `🛒 *${purchase.product}*\n` +
+  `🎨 Color: ${purchase.color}\n` +
+  `📏 Talle: ${purchase.size}\n` +
+  `💵 Precio: $${purchase.price.toLocaleString('es-AR')}\n` +
+  `📅 Fecha: ${purchase.date}\n` +
+  `🔑 Código de verificación: *${state.paymentCode}*\n\n` +
+  `Adjunté el comprobante.`;
 
   window.open(`https://wa.me/${purchase.whatsapp}?text=${encodeURIComponent(waText)}`, '_blank');
 
@@ -527,7 +536,7 @@ function handleEnd(){
 const productData = {
   sku: 'demo-sku',
   name: 'Zapatilla Demo',
-  basePrice: 130000,
+  basePrice: 10,
   oldPrice: 160000, // si hay descuento dejar > basePrice, si no poner null o eliminar
   description: 'Zapatilla de ejemplo con diseño cómodo y suela reforzada. Material sintético premium y forro transpirable.',
   storeEmail: 'local@tienda.com',
@@ -797,6 +806,11 @@ function populateInstallments(){
 }
 
 buyBtn.addEventListener('click', ()=>{
+  state.paymentCode = generarCodigoPago();
+document.getElementById("modalTotal").innerHTML =
+  "Total: $" + productData.basePrice.toLocaleString("es-AR") +
+  "<br><small style='color:#aaa'>Código de verificación: <b>" + state.paymentCode + "</b></small>";
+
   // check stock before opening
   const stock = getStockFor(state.color, state.size);
   if(stock <= 0){
@@ -845,6 +859,19 @@ confirmPay.addEventListener('click', ()=>{
 });
 
 function showSuccessAndSendReceipt(){
+
+  const registro = JSON.parse(localStorage.getItem("pagos") || "[]");
+registro.push({
+  code: state.paymentCode,
+  product: purchase.product,
+  color: purchase.color,
+  size: purchase.size,
+  date: purchase.date,
+  amount: purchase.price,
+  verified: false
+});
+localStorage.setItem("pagos", JSON.stringify(registro));
+
 confirmPay.addEventListener('click', async () => {
   confirmPay.disabled = true;
   confirmPay.textContent = "Procesando...";
@@ -891,6 +918,19 @@ confirmPay.addEventListener('click', async () => {
 // FUNCIÓN CORRECTA
 // ==========================
 function showSuccessAndSendReceipt(){
+
+  const registro = JSON.parse(localStorage.getItem("pagos") || "[]");
+registro.push({
+  code: state.paymentCode,
+  product: purchase.product,
+  color: purchase.color,
+  size: purchase.size,
+  date: purchase.date,
+  amount: purchase.price,
+  verified: false
+});
+localStorage.setItem("pagos", JSON.stringify(registro));
+
   // Disminuye stock local
   const currentStock = getStockFor(state.color, state.size);
   if(currentStock > 0){
@@ -931,13 +971,14 @@ function showSuccessAndSendReceipt(){
 
   // Enviar por WhatsApp
   const waText =
-    `Hola! Te envío mi comprobante de compra:\n\n` +
-    `🛒 *${purchase.product}*\n` +
-    `🎨 Color: ${purchase.color}\n` +
-    `📏 Talle: ${purchase.size}\n` +
-    `💵 Precio: $${purchase.price.toLocaleString('es-AR')}\n` +
-    `📅 Fecha: ${purchase.date}\n\n` +
-    `Adjunté PDF del comprobante.`;
+  `Hola! Te envío mi comprobante de compra.\n\n` +
+  `🛒 *${purchase.product}*\n` +
+  `🎨 Color: ${purchase.color}\n` +
+  `📏 Talle: ${purchase.size}\n` +
+  `💵 Precio: $${purchase.price.toLocaleString('es-AR')}\n` +
+  `📅 Fecha: ${purchase.date}\n` +
+  `🔑 Código de verificación: *${state.paymentCode}*\n\n` +
+  `Adjunté el comprobante.`;
 
   window.open(`https://wa.me/${purchase.whatsapp}?text=${encodeURIComponent(waText)}`, '_blank');
 
@@ -969,6 +1010,91 @@ function showSuccessAndSendReceipt(){
   }
   updateStockAndAvailability();
 })();
+
+</script>
+
+<script>
+
+// ===================================
+// SISTEMA DE STOCK POR COLOR Y TALLE
+// ===================================
+
+function getStockFor(color, size){
+  if(!productData.stockByColorSize[color]) return 0;
+  return productData.stockByColorSize[color][size] || 0;
+}
+
+function updateStockAndAvailability(){
+  const stock = getStockFor(state.color, state.size);
+
+  // Mostrar stock general
+  document.getElementById("stockCount").textContent = stock;
+
+  // Nota de disponibilidad
+  const stockNote = document.getElementById("stockNote");
+
+  if(stock <= 0){
+    stockNote.textContent = "Sin stock";
+    stockNote.style.color = "#ff8a8a";
+    document.getElementById("buyBtn").disabled = true;
+    document.getElementById("buyBtn").style.opacity = ".4";
+  } else {
+    stockNote.textContent = "En stock";
+    stockNote.style.color = "#bdbdbd";
+    document.getElementById("buyBtn").disabled = false;
+    document.getElementById("buyBtn").style.opacity = "1";
+  }
+}
+
+
+// ====================================================
+// EVENTO REAL DEL BOTÓN "PAGAR" (tu botón MP actual)
+// ====================================================
+
+document.querySelector("#mpagoButton button").addEventListener("click", ()=>{
+  
+  // Aquí deberías detectar pago REAL con Webhook
+  // pero para efectos de tu sitio, simulamos "pago exitoso"
+  
+  setTimeout(()=>{
+      showSuccessAndSendReceipt();
+  }, 800);
+
+});
+
+
+// ====================================================
+// RESTAR STOCK Y GENERAR RECIBO
+// ====================================================
+
+function showSuccessAndSendReceipt(){
+
+  const registro = JSON.parse(localStorage.getItem("pagos") || "[]");
+registro.push({
+  code: state.paymentCode,
+  product: purchase.product,
+  color: purchase.color,
+  size: purchase.size,
+  date: purchase.date,
+  amount: purchase.price,
+  verified: false
+});
+localStorage.setItem("pagos", JSON.stringify(registro));
+
+
+  // Obtener stock actual
+  const currentStock = getStockFor(state.color, state.size);
+
+  // ❗ si hay stock, restar
+  if(currentStock > 0){
+    productData.stockByColorSize[state.color][state.size] = currentStock - 1;
+  }
+
+  // actualizar stock en pantalla
+  updateStockAndAvailability();
+
+  alert("Pago realizado con éxito.\nStock actualizado.");
+}
 
 </script>
 
