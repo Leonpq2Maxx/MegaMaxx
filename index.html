@@ -72,23 +72,6 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
   flex:0 0 auto;
 }
 
-.xplus{
-  width:260px;
-  transition:transform 0.3s ease;
-}
-
-.xplus:hover,
-.xplus:focus{
-  transform:scale(1.12);
-  z-index:10;
-}
-
-.xaviec{
-  width:100%;
-  height:380px;
-  object-fit:cover;
-  border-radius:12px;
-}
 
 .xplus i{
   display:block;
@@ -101,11 +84,75 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
   text-overflow:ellipsis;
 }
 
+
+
+.xplus{
+  width:260px;
+  transition:all 0.3s ease;
+  position:relative;
+}
+
+.xplus:hover,
+.xplus:focus{
+  transform:scale(1.12);
+  z-index:10;
+}
+
+.xplus:hover .xaviec{
+  box-shadow:0 0 25px #00eaff, 0 0 60px rgba(0,234,255,0.6);
+  border:3px solid #00eaff;
+}
+
+.xaviec{
+  width:100%;
+  height:380px;
+  object-fit:cover;
+  border-radius:12px;
+  transition:all 0.3s ease;
+}
+
 .lock-icon{
   display:block;
   text-align:center;
   margin-top:5px;
   font-size:18px;
+}
+
+.poster h4.alignleft{
+  position:relative;
+  display:inline-block;
+  padding-bottom:8px;
+}
+
+.poster h4.alignleft::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:60%;
+  height:4px;
+  background:#e50914;
+  border-radius:4px;
+}
+
+
+
+
+/*ahora*/
+.poster h4.alignleft::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0%;
+  height:4px;
+  background:#e50914;
+  border-radius:4px;
+  transition:width 0.6s ease;
+}
+
+.poster h4.alignleft:hover::after{
+  width:70%;
 }
 
 /* ====== PANTALLAS GRANDES (TV / 1920px+) ====== */
@@ -143,6 +190,42 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
   }
 
   
+
+}
+
+.ver-todo{
+  float:right;
+  margin-right:40px;
+  margin-top:-35px;
+  text-decoration:none;
+  color:#aaa;
+  font-size:18px;
+  transition:all 0.3s ease;
+}
+
+.ver-todo:hover{
+  color:#e50914;
+  transform:translateX(5px);
+}
+
+.ver-todo::after{
+  content:" →";
+  transition:margin 0.3s ease;
+}
+
+.ver-todo:hover::after{
+  margin-left:5px;
+}
+
+@media(min-width:1600px){
+
+  .xplus:hover .xaviec{
+    box-shadow:0 0 40px #00eaff, 0 0 100px rgba(0,234,255,0.8);
+  }
+
+  .ver-todo{
+    font-size:22px;
+  }
 
 }
 </style>
@@ -200,7 +283,7 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
   <!-- Ejemplo: aquí debe ir TODO el contenido original del index -->
 
   <div class="poster">
-    <h4 class="alignleft">Series</h4><a href="#"></a>
+    <h4 class="alignleft">Series</h4><a href="#" class="ver-todo">Ver Todo</a>
   </div>
 
   <div class="scrollmenu">
