@@ -85,6 +85,7 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
 }
 
 
+/* ===== HOVER BORDE CELESTE ELEGANTE ===== */
 
 .xplus{
   width:260px;
@@ -94,13 +95,8 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
 
 .xplus:hover,
 .xplus:focus{
-  transform:scale(1.12);
+  transform:scale(1.06);
   z-index:10;
-}
-
-.xplus:hover .xaviec{
-  box-shadow:0 0 25px #00eaff, 0 0 60px rgba(0,234,255,0.6);
-  border:3px solid #00eaff;
 }
 
 .xaviec{
@@ -109,7 +105,15 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
   object-fit:cover;
   border-radius:12px;
   transition:all 0.3s ease;
+  border:3px solid transparent;
 }
+
+/* 🔹 Brillo sutil solo en bordes */
+.xplus:hover .xaviec{
+  border:3px solid #00eaff;
+  box-shadow:0 0 12px rgba(0,234,255,0.5);
+}
+
 
 .lock-icon{
   display:block;
@@ -155,6 +159,27 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
   width:70%;
 }
 
+/* ===== FORMATO SMART TV ===== */
+
+@media (min-width: 1200px){
+
+  .xplus{
+    width:220px; /* antes 260px */
+  }
+
+  .xaviec{
+    height:320px; /* antes 380px */
+  }
+
+  .scrollmenu{
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    padding:20px 40px;
+  }
+
+}
+
 /* ====== PANTALLAS GRANDES (TV / 1920px+) ====== */
 
 @media(min-width:1600px){
@@ -191,6 +216,17 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
 
   
 
+}
+
+
+.card-link{
+  outline:none;
+}
+
+.card-link:focus .xaviec{
+  border:3px solid #00eaff;
+  box-shadow:0 0 12px rgba(0,234,255,0.5);
+  transform:scale(1.08);
 }
 
 .ver-todo{
@@ -232,11 +268,6 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
 <style>
 /* ================= CANDADO MEJORADO ================= */
 
-.xplus{
-  width:260px;
-  transition:transform 0.3s ease;
-  position:relative; /* 🔥 CLAVE PARA QUE EL CANDADO SE POSICIONE BIEN */
-}
 
 .lock-icon{
   position:absolute;
@@ -409,8 +440,6 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
 
 
   </div>
-
-  <br><br>
 
   <br><br>
 
@@ -698,6 +727,7 @@ const data = {
           <span class="lock-icon">🔒</span>
         </div>
       </a>
+    </div>
 
     <br><br>
 
@@ -845,6 +875,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Cargar contenido dinámico
         contenidoDinamico.innerHTML = data[section] || "<p style='color:white'>No hay contenido</p>";
+        actualizarCandados();
       }
 
       // 🔥 Scroll arriba automático
@@ -855,6 +886,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
   });
+
+});
+</script>
+
+
+<script>
+document.addEventListener("keydown", function(e){
+
+  const focused = document.activeElement;
+
+  if(!focused.classList.contains("card-link")) return;
+
+  const menu = focused.closest(".scrollmenu");
+
+  if(e.key === "ArrowRight"){
+    menu.scrollBy({ left: 250, behavior: "smooth" });
+  }
+
+  if(e.key === "ArrowLeft"){
+    menu.scrollBy({ left: -250, behavior: "smooth" });
+  }
 
 });
 </script>
