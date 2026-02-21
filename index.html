@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MovieTx TV</title>
+<title>MovieTx TV Optimizado</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
@@ -13,966 +13,174 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
 .menu-item{display:block;padding:15px;margin:5px 0;text-decoration:none;color:#fff;font-size:18px;border-radius:8px;}
 .menu-item:hover,.menu-item:focus{background:#e50914;outline:none;}
 .main{margin-left:260px;width:calc(100% - 260px);}
-.section-title{font-size:26px;margin:25px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:25px;padding:25px;}
-.card{background:#222;border-radius:12px;overflow:hidden;transition:transform 0.3s;}
-.card img{width:100%;height:300px;object-fit:cover;}
-.card span{display:block;padding:12px;text-align:center;}
-.card:hover,.card:focus{transform:scale(1.07);outline:3px solid #e50914;}
-@media(max-width:768px){
-.sidebar{position:relative;width:100%;height:auto;display:flex;overflow-x:auto;}
-.sidebar img{display:none;}
-.main{margin-left:0;width:100%;}
-}
-.menu-item {
-  padding: 10px 18px;
-  text-decoration: none;
-  color: white;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-}
 
-.menu-item:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-.menu-item.active {
-  background: #e50914;
-  color: white;
-  font-weight: bold;
-  box-shadow: 0 0 15px rgba(229,9,20,0.6);
-}
-/* ================= DISEÑO TIPO NETFLIX TV ================= */
-
-.poster{
-  padding: 0 40px;
-}
-
-.poster h4{
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.scrollmenu{
-  display:flex;
-  gap:30px;
-  overflow-x:auto;
-  padding: 20px 40px;
-  scroll-behavior:smooth;
-}
-
-.scrollmenu::-webkit-scrollbar{
-  display:none;
-}
-
-.card-link{
-  text-decoration:none;
-  color:white;
-  flex:0 0 auto;
-}
-
-
-.xplus i{
-  display:block;
-  margin-top:10px;
-  font-style:normal;
-  font-size:20px;
-  text-align:center;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-
-/* ===== HOVER BORDE CELESTE ELEGANTE ===== */
-
-.xplus{
-  width:260px;
-  transition:all 0.3s ease;
-  position:relative;
-}
-
-.xplus:hover,
-.xplus:focus{
-  transform:scale(1.06);
-  z-index:10;
-}
-
-.xaviec{
-  width:100%;
-  height:380px;
-  object-fit:cover;
-  border-radius:12px;
-  transition:all 0.3s ease;
-  border:3px solid transparent;
-}
-
-/* 🔹 Brillo sutil solo en bordes */
-.xplus:hover .xaviec{
-  border:3px solid #00eaff;
-  box-shadow:0 0 12px rgba(0,234,255,0.5);
-}
-
-
-.lock-icon{
-  display:block;
-  text-align:center;
-  margin-top:5px;
-  font-size:18px;
-}
-
-.poster h4.alignleft{
-  position:relative;
-  display:inline-block;
-  padding-bottom:8px;
-}
-
-.poster h4.alignleft::after{
+/* ===== POSTERS ===== */
+.poster{padding:0 40px;}
+.poster h4{font-size:26px;margin-bottom:15px;position:relative;display:inline-block;}
+.poster h4::after{
   content:"";
   position:absolute;
   left:0;
-  bottom:0;
+  bottom:-6px;
   width:60%;
   height:4px;
   background:#e50914;
   border-radius:4px;
 }
 
+/* ===== SCROLL MENU ===== */
+.scrollmenu{
+  display:flex;
+  gap:18px;
+  padding:20px 40px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-behavior:smooth;
+}
+.scrollmenu::-webkit-scrollbar{display:none;}
 
-
-
-/*ahora*/
-.poster h4.alignleft::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:0;
-  width:0%;
-  height:4px;
-  background:#e50914;
-  border-radius:4px;
-  transition:width 0.6s ease;
+/* ===== CARDS ===== */
+.card-link{flex:0 0 auto;text-decoration:none;color:white;outline:none;}
+.xplus{width:180px;position:relative;transition:transform .3s;}
+.xaviec{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  border-radius:12px;
+  border:3px solid transparent;
+  transition:.3s;
+}
+.xplus i{
+  display:block;
+  margin-top:8px;
+  text-align:center;
+  font-size:16px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-.poster h4.alignleft:hover::after{
-  width:70%;
-}
-
-/* ===== FORMATO SMART TV ===== */
-
-/* ===== MODO SMART TV 1080p ===== */
-
-@media (min-width:1200px){
-
-  .scrollmenu{
-    gap:20px;
-    padding:20px 40px;
-  }
-
-  .xplus{
-    width:180px;   /* MÁS PEQUEÑO */
-  }
-
-  .xaviec{
-    height:270px;  /* PROPORCIÓN REAL TV */
-  }
-
-  .poster h4{
-    font-size:22px;
-    margin-left:40px;
-  }
-
-}
-
-/* ====== PANTALLAS GRANDES (TV / 1920px+) ====== */
-
-@media(min-width:1600px){
-
-  .sidebar{
-    width:320px;
-  }
-
-  .main{
-    margin-left:320px;
-    width:calc(100% - 320px);
-  }
-
-  .menu-item{
-    font-size:22px;
-    padding:18px;
-  }
-
-  .poster h4{
-    font-size:38px;
-  }
-
-  .xplus{
-    width:320px;
-  }
-
-  .xaviec{
-    height:480px;
-  }
-
-  .xplus i{
-    font-size:24px;
-  }
-
-  
-
-}
-
-
-.card-link{
-  outline:none;
-}
-
-.card-link:focus .xaviec{
+.card-link:focus .xaviec,
+.card-link:hover .xaviec{
   border:3px solid #00eaff;
-  box-shadow:0 0 12px rgba(0,234,255,0.5);
-  transform:scale(1.08);
+  box-shadow:0 0 12px rgba(0,234,255,0.6);
+  transform:scale(1.05);
 }
 
-.ver-todo{
-  float:right;
-  margin-right:40px;
-  margin-top:-35px;
-  text-decoration:none;
-  color:#aaa;
-  font-size:18px;
-  transition:all 0.3s ease;
-}
-
-.ver-todo:hover{
-  color:#e50914;
-  transform:translateX(5px);
-}
-
-.ver-todo::after{
-  content:" →";
-  transition:margin 0.3s ease;
-}
-
-.ver-todo:hover::after{
-  margin-left:5px;
-}
-
-@media(min-width:1600px){
-
-  .xplus:hover .xaviec{
-    box-shadow:0 0 40px #00eaff, 0 0 100px rgba(0,234,255,0.8);
-  }
-
-  .ver-todo{
-    font-size:22px;
-  }
-
-}
-</style>
-<style>
-/* ================= CANDADO MEJORADO ================= */
-
-
+/* Candado */
 .lock-icon{
   position:absolute;
-  top:10px;
-  right:10px;
-  font-size:30px;
-  z-index:20;
+  top:8px;
+  right:8px;
+  font-size:26px;
   display:none;
   animation:floatLock 2s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
 }
-
-/* Mostrar candado cuando esté bloqueado */
-.card-link.locked .lock-icon{
-  display:block;
-}
-
-/* Animación flotante */
+.card-link.locked .lock-icon{display:block;}
 @keyframes floatLock{
-  0%   { transform:translateY(0px) scale(1); }
-  50%  { transform:translateY(-6px) scale(1.15); }
-  100% { transform:translateY(0px) scale(1); }
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+  100%{transform:translateY(0)}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(min-width:1400px){
+  .xplus{width:220px;}
+  .xaviec{height:320px;}
+}
+@media(min-width:1900px){
+  .xplus{width:260px;}
+  .xaviec{height:380px;}
 }
 </style>
 </head>
+
 <body>
 
 <div class="layout">
+
 <div class="sidebar">
 <img src="Logo MovieTx.png" alt="Logo">
-<a href="#" class="menu-item" data-section="inicio">Inicio</a>
-<a href="#" class="menu-item" data-section="2025">2025</a>
-<a href="#" class="menu-item" data-section="peliculas">Peliculas</a>
-<a href="#" class="menu-item" data-section="series">Series</a>
-<a href="#" class="menu-item" data-section="pronto">Pronto</a>
-<a href="#" class="menu-item" data-section="trailers">Trailers</a>
+<a href="#" class="menu-item">Inicio</a>
+<a href="#" class="menu-item">Peliculas</a>
+<a href="#" class="menu-item">Series</a>
 </div>
 
 <div class="main">
 
-<!-- ========== CONTENIDO ORIGINAL DEL INDEX ========== -->
-<div id="contenido-orig">
+<div class="poster">
+<h4>Series</h4>
+</div>
 
-  <!-- Ejemplo: aquí debe ir TODO el contenido original del index -->
+<div class="scrollmenu">
 
-  <div class="poster">
-    <h4 class="alignleft">Series</h4><a href="#" class="ver-todo">Ver Todo</a>
-  </div>
+<a class="card-link" data-href="">
+<div class="xplus">
+<img class="xaviec" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg">
+<i>En el barro</i>
+<span class="lock-icon">🔒</span>
+</div>
+</a>
 
-  <div class="scrollmenu">
-    <br>
-
-    <a class="card-link" data-href="">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-    <a class="card-link" data-href="View Series/En el barro (2025).html">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-    <a class="card-link" data-href="View Series/En el barro (2025).html">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-    <a class="card-link" data-href="View Series/En el barro (2025).html">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-    <a class="card-link" data-href="View Series/En el barro (2025).html">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-    <a class="card-link" data-href="View Series/En el barro (2025).html">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-    <a class="card-link" data-href="View Series/En el barro (2025).html">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-    <a class="card-link" data-href="View Series/En el barro (2025).html">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-    <a class="card-link" data-href="View Series/En el barro (2025).html">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg"/>
-        <i>En el barro</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-  </div>
-
-  <br><br>
-
-  <div class="poster">
-    <h4 class="alignleft">Agregado HOY</h4><a href="#"></a>
-  </div>
-
-  <div class="scrollmenu">
-    <br>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=sidelined_2">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/sEIP1pTVXa8BJaYSuVeVG3wFN10.jpg"/>
-        <i>Sidelined 2: Interceptado</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=madagascar">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/v6bFSYpmAREGriQiMJvvO9TiapM.jpg"/>
-        <i>Madagascar</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-  </div>
-
-  <br><br>
-
-  <div class="poster">
-    <h4 class="alignleft">Mundo Marvel</h4><a href="#"></a>
-  </div>
-
-  <div class="scrollmenu">
-    <br>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=capitan_america1">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/82ucHZ4ioVGiweT1XMl1mUZaodq.jpg"/>
-        <i>Capitán América: El...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-    <a class="card-link" data-href="View Peliculas/Reproductor Universal.html?id=venom_3">
-      <div class="xplus">
-        <img class="xaviec" loading="lazy" src="placeholder.jpg" data-src="https://image.tmdb.org/t/p/w300/bHB8Fv28cOk5sNxRwWaLoT6Pnrv.jpg"/>
-        <i>Venom 3: El último...</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-
-  </div>
-
-  <br><br>
-
-  <div class="poster">
-    <h4 class="alignleft">Trailer</h4><a href="#"></a>
-  </div>
-
-  <div class="scrollmenu">
-    <br>
-    <a class="card-link" data-href="">
-      <div class="xplus">
-        <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/6eB2oh1SplddsZYCdayrIdrIGLd.jpg"/>
-        <i>Los vengadores: Doomsday</i>
-        <span class="lock-icon">🔒</span>
-      </div>
-    </a>
-
-  </div>
+<a class="card-link" data-href="View Series/En el barro (2025).html">
+<div class="xplus">
+<img class="xaviec" src="https://image.tmdb.org/t/p/w300/vQANo4LO7Hi57XxQqhRWeAZkD5h.jpg">
+<i>En el barro</i>
+<span class="lock-icon">🔒</span>
+</div>
+</a>
 
 </div>
-<!-- ========== CONTENIDO DINÁMICO ========== -->
-<div id="contenido-dinamico" style="display:none;"></div>
 
-<script>
-
-/* ================= CONTENIDO DINÁMICO ================= */
-const data = {
-  "peliculas": `
-    <div class="poster">
-      <h4 class="alignleft">Pronto</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-    
-      <a class="card-link" data-href="View Peliculas/Zootopia 2 (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/3Wg1LBCiTEXTxRrkNKOqJyyIFyF.jpg"/>
-          <i>Zootopia 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-      
-      <a class="card-link" data-href="View Peliculas/Demon Slayer Kimetsu no Yaiba Infinity Castle (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg"/>
-          <i>Demon Slayer: Kimetsu...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Peliculas <br/>Agregadas</h4><a href="Mostras Mas/Peliculas Agregadas.html"><h4 class="alignright">Ver Todo</h4></a></div>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-
-      <a class="card-link" data-href="View Peliculas/Five Nights at Freddy's 2 (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg"/>
-          <i>Five nights at Freddy's 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Cómo entrenar a tu dragón (2025.html)">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fTpbUIwdsfyIldzYvzQi2K4Icws.jpg"/>
-          <i>Cómo entrenar a tu...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-  `,
-  "2025": `
-    <div class="poster">
-      <h4 class="alignleft">2025</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      
-      <a class="card-link" data-href="View Peliculas/Five Nights at Freddy's 2 (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/rgUhzpzK9uozbXdGMscN4DmqmAv.jpg"/>
-          <i>Five nights at Freddy's 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="View Peliculas/Zootopia 2 (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/3Wg1LBCiTEXTxRrkNKOqJyyIFyF.jpg"/>
-          <i>Zootopia 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg"/>
-          <i>Demon Slayer: Kimetsu...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-    
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Peliculas 2025</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-    
-      <a class="card-link" data-href="View Peliculas/Rehén (2025).HTML">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/oogRn4KOse6OhRUhxvfLiCpz2d5.jpg"/>
-          <i>¡Rehén!</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    
-      <a class="card-link" data-href="View Peliculas/La viuda negra (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/uuabL0qp3zygLDEjImbPiWR9j2e.jpg"/>
-          <i>La viuda negra</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-  `,
-
-  "2024": `
-    <div class="poster">
-      <h4 class="alignleft">2024</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="View Peliculas/Azrael (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/62sRNfaCe0GC34N8LhSdb6Sm0Fk.jpg"/>
-          <i>Azrael</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="View Peliculas/El guason 2 (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fCQyAQ2K1N1RM5n79ZyCLRSgZuz.jpg"/>
-          <i>El Guasón 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="View Peliculas/El hoyo 2 (2024).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jHGgM019xAoy62cKZtDmTxvQlUY.jpg"/>
-          <i>EL HOYO 2</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    </div>
-
-  `,
-  "series": `
-    <div class="poster">
-      <h4 class="alignleft">Disponible</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="View Series/El Juego Del Calamar (2021).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy"  src="https://image.tmdb.org/t/p/w300/xNvlt4jn2KbuKJoZ9UiVpm7lYjr.jpg"/>
-          <i>El juego Del calamar</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Anime</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/jiYAZkeh6M7Slsil6nPtMKNlGlu.jpg"/>
-          <i>One punch man</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/uJw6nLCzQ8SftuCUJQNXTrvjlm4.jpg"/>
-          <i>Dragon Ball Daima</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-        <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/8PT42NbjTZzYzCnPzg4NZzSW97n.jpg"/>
-          <i>Dragon Ball Z </i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/3V7kzJX7hvF0H9CDJsgcWKXTSsR.jpg"/>
-          <i>Naruto Shippuden</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Accion</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="Rosario Tijeras.jpg"/>
-          <i>Rosario Tijeras</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Biblico</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/8hUZa9LzC4vyQiwX8KadKLIBXWg.jpg"/>
-          <i>Genesis</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/spMIIipBp3sz24zIG1oXgGFfcNZ.jpg"/>
-          <i>Moisés y los Diez Man...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Drama</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="View Series/View Series/En el barro (2025).html">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kKi1YdzQNM87Mcz7WxxclHbevwr.jpg"/>
-          <i>En el barro</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Marvel</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/nbkbguUUNWQZygVJKjODyELBQk9.jpg"/>
-          <i>Agatha, ¿quién si no?</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/hEb0uSHvhSwsMMRUGUttxqtHKnZ.jpg"/>
-          <i>Bruja Escarlata y Vi...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-    </div>
-
-    <br><br>
-
-    <div class="poster">
-      <h4 class="alignleft">Terror</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-       <a class="card-link" data-href="View Series/IT Bienvenidos a Derry (2025).html">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/vC6LSYC8uhZPkPM01L6HKrr1lMD.jpg"/>
-          <i>It: Bienvenidos a Derry</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-  `,
-
-  "pronto": `
-    <div class="poster">
-      <h4 class="alignleft">2024</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg"/>
-          <i>Demon Slayer: Kimetsu...</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/fbcs5AxrdXwyj1b8bGGMgC9kXrM.jpg"/>
-          <i>Gladiador II</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a>
-
-  `,
-
-  "trailers": `
-    <div class="poster">
-      <h4 class="alignleft">2025</h4><a href="#"><h4 class="alignright">Ver Todo</h4></a>
-    </div>
-
-    <div class="scrollmenu">
-      <br>
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/kceHm889ylKW7uTs6mEOYXNeTQ9.jpg"/>
-          <i>Trailer: Lilo y Stitch</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/pKaSLXmpT6oSRjnnFzGECPt0BRx.jpg"/>
-          <i>Trailer: Destino Final 6</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/bSGXolaGLJZxueTXxEE2WsgEoNh.jpg"/>
-          <i>Trailer: La bala perdida</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-
-      <a class="card-link" data-href="">
-        <div class="xplus">
-          <img alt="" class="xaviec" loading="lazy" src="https://image.tmdb.org/t/p/w300/aPVAwfxJc77qGrS2rzhNkJ4VnUB.jpg"/>
-          <i>Trailer: Thunderbolts*</i>
-          <span class="lock-icon">🔒</span>
-        </div>
-      </a> 
-    </div>
-
-  `,
-};
-</script>
+</div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const menuItems = document.querySelectorAll(".menu-item");
-  const contenidoOrig = document.getElementById("contenido-orig");
-  const contenidoDinamico = document.getElementById("contenido-dinamico");
-
-  // 🔥 Activar Inicio por defecto
-  document.querySelector('.menu-item[data-section="inicio"]').classList.add("active");
-  contenidoOrig.style.display = "block";
-  contenidoDinamico.style.display = "none";
-
-  menuItems.forEach(item => {
-    item.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      const section = item.dataset.section;
-
-      // 🔥 Quitar active a todos
-      menuItems.forEach(el => el.classList.remove("active"));
-
-      // 🔥 Agregar active al seleccionado
-      item.classList.add("active");
-
-      // 🔥 Si es Inicio
-      if (section === "inicio") {
-        contenidoOrig.style.display = "block";
-        contenidoDinamico.style.display = "none";
-      } else {
-        contenidoOrig.style.display = "none";
-        contenidoDinamico.style.display = "block";
-
-        // Cargar contenido dinámico
-        contenidoDinamico.innerHTML = data[section] || "<p style='color:white'>No hay contenido</p>";
-        actualizarCandados();
-      }
-
-      // 🔥 Scroll arriba automático
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    });
-  });
-
+function actualizarCandados(){
+document.querySelectorAll('.card-link').forEach(link=>{
+const href=link.getAttribute('data-href');
+if(!href||href.trim()===""){
+link.classList.add("locked");
+link.setAttribute("href","#");
+link.style.pointerEvents="none";
+link.style.opacity="0.6";
+}else{
+link.classList.remove("locked");
+link.setAttribute("href",href);
+link.style.pointerEvents="auto";
+link.style.opacity="1";
+}
 });
-</script>
-
-
-<script>
-document.addEventListener("keydown", function(e){
-
-  const focused = document.activeElement;
-
-  if(!focused.classList.contains("card-link")) return;
-
-  const menu = focused.closest(".scrollmenu");
-
-  if(e.key === "ArrowRight"){
-    menu.scrollBy({ left: 250, behavior: "smooth" });
-  }
-
-  if(e.key === "ArrowLeft"){
-    menu.scrollBy({ left: -250, behavior: "smooth" });
-  }
-
-});
-</script>
-
-<script>
-function actualizarCandados() {
-
-  document.querySelectorAll('.card-link').forEach(link => {
-
-    const dataHref = link.getAttribute('data-href');
-
-    if (!dataHref || dataHref.trim() === "") {
-
-      link.classList.add("locked");
-      link.setAttribute("href", "javascript:void(0)");
-      link.style.pointerEvents = "none";
-      link.style.opacity = "0.6";
-
-    } else {
-
-      link.classList.remove("locked");
-      link.setAttribute("href", dataHref);
-      link.style.pointerEvents = "auto";
-      link.style.opacity = "1";
-    }
-
-  });
-
 }
 
-// Ejecutar al cargar
-document.addEventListener("DOMContentLoaded", actualizarCandados);
-</script>
-
-<script>
-
-/* ===== HABILITAR FOCO EN TODAS LAS TARJETAS ===== */
-
-document.querySelectorAll('.card-link').forEach(card => {
-  card.setAttribute("tabindex", "0");
+function activarNavegacion(){
+const cards=document.querySelectorAll('.card-link');
+cards.forEach(card=>{
+card.setAttribute("tabindex","0");
+card.addEventListener("focus",()=>{
+card.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+});
 });
 
+document.addEventListener("keydown",e=>{
+const active=document.activeElement;
+if(!active.classList.contains("card-link"))return;
 
-/* ===== SCROLL AUTOMÁTICO AL ENFOCAR ===== */
-
-document.querySelectorAll('.card-link').forEach(card => {
-
-  card.addEventListener("focus", function(){
-
-    const menu = card.closest(".scrollmenu");
-
-    card.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest"
-    });
-
-  });
-
+if(e.key==="ArrowRight"){
+e.preventDefault();
+active.nextElementSibling?.focus();
+}
+if(e.key==="ArrowLeft"){
+e.preventDefault();
+active.previousElementSibling?.focus();
+}
 });
+}
 
+document.addEventListener("DOMContentLoaded",()=>{
+actualizarCandados();
+activarNavegacion();
+});
 </script>
 
 </body>
