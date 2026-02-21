@@ -161,21 +161,26 @@ body{margin:0;font-family:Arial;background:#111;color:#fff;overflow-x:hidden;}
 
 /* ===== FORMATO SMART TV ===== */
 
-@media (min-width: 1200px){
+/* ===== MODO SMART TV 1080p ===== */
+
+@media (min-width:1200px){
+
+  .scrollmenu{
+    gap:20px;
+    padding:20px 40px;
+  }
 
   .xplus{
-    width:220px; /* antes 260px */
+    width:180px;   /* MÁS PEQUEÑO */
   }
 
   .xaviec{
-    height:320px; /* antes 380px */
+    height:270px;  /* PROPORCIÓN REAL TV */
   }
 
-  .scrollmenu{
-    display:flex;
-    gap:20px;
-    overflow-x:auto;
-    padding:20px 40px;
+  .poster h4{
+    font-size:22px;
+    margin-left:40px;
   }
 
 }
@@ -939,6 +944,35 @@ function actualizarCandados() {
 
 // Ejecutar al cargar
 document.addEventListener("DOMContentLoaded", actualizarCandados);
+</script>
+
+<script>
+
+/* ===== HABILITAR FOCO EN TODAS LAS TARJETAS ===== */
+
+document.querySelectorAll('.card-link').forEach(card => {
+  card.setAttribute("tabindex", "0");
+});
+
+
+/* ===== SCROLL AUTOMÁTICO AL ENFOCAR ===== */
+
+document.querySelectorAll('.card-link').forEach(card => {
+
+  card.addEventListener("focus", function(){
+
+    const menu = card.closest(".scrollmenu");
+
+    card.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest"
+    });
+
+  });
+
+});
+
 </script>
 
 </body>
